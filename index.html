@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Disordinato</title>
+  <title>Simulatore MS-DOS con Risposte Strane</title>
   <style>
     body {
       background-color: black;
@@ -44,6 +44,8 @@
       display: inline-block;
       margin-right: 10px;
       white-space: nowrap;
+      writing-mode: vertical-lr; /* Rende le parole verticali */
+      text-orientation: mixed;
     }
     .matrix-letter {
       color: lime;
@@ -104,7 +106,7 @@
         let risposta = '';
         for (let i = 0; i < parole.length; i++) {
           let fraseCasuale = frasiSenzaSenso[Math.floor(Math.random() * frasiSenzaSenso.length)];
-          risposta += `<div class="matrix-word">${creaParolaAnimata(fraseCasuale + parole[i])}</div>`;
+          risposta += `<div class="matrix-word">${creaParolaAnimata(fraseCasuale + parole[i])}</div><br>`;
         }
 
         risposta += "<div class='matrix-word'>" + creaParolaAnimata("Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.") + "</div>";
