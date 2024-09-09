@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>disOrdine</title>
+  <title>Simulatore MS-DOS con Risposte Strane</title>
   <style>
     body {
       background-color: black;
@@ -39,17 +39,18 @@
     p {
       margin: 10px 0;
     }
-    /* Effetto Matrix */
-    .matrix {
-      font-family: monospace;
-      font-size: 18px;
-      white-space: pre-wrap;
-      color: lime;
-      animation: matrix-animation 1s linear infinite;
+    /* Effetto Matrix per singole lettere */
+    .matrix-word {
       display: inline-block;
-      position: relative;
+      margin-right: 10px;
+      white-space: nowrap;
     }
-
+    .matrix-letter {
+      color: lime;
+      display: block;
+      animation: matrix-animation 1.5s linear infinite;
+      font-family: monospace;
+    }
     @keyframes matrix-animation {
       0% { opacity: 0; transform: translateY(-100%); }
       50% { opacity: 1; }
@@ -103,11 +104,10 @@
         let risposta = '';
         for (let i = 0; i < parole.length; i++) {
           let fraseCasuale = frasiSenzaSenso[Math.floor(Math.random() * frasiSenzaSenso.length)];
-          // Aggiunge l'effetto matrix alla parola generata
-          risposta += `<span class="matrix">${fraseCasuale + parole[i]}</span>. `;
+          risposta += `<div class="matrix-word">${creaParolaAnimata(fraseCasuale + parole[i])}</div>`;
         }
 
-        risposta += "<span class='matrix'>Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.</span>";
+        risposta += "<div class='matrix-word'>" + creaParolaAnimata("Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.") + "</div>";
 
         // Visualizza la risposta con l'effetto Matrix
         responseDiv.innerHTML = `<p>${risposta}</p>`;
@@ -115,6 +115,15 @@
 
       // Pulisce il campo di input
       document.getElementById('userInput').value = '';
+    }
+
+    // Funzione per creare lettere animate stile Matrix
+    function creaParolaAnimata(parola) {
+      let parolaHTML = '';
+      for (let lettera of parola) {
+        parolaHTML += `<span class="matrix-letter">${lettera}</span>`;
+      }
+      return parolaHTML;
     }
   </script>
 </body>
