@@ -48,12 +48,14 @@
     }
     /* Animazione di spostamento */
     .move {
-      animation: move-animation 3s infinite;
+      display: inline-block;
+    }
+    .moving {
+      animation: move-animation 3s forwards;
     }
     @keyframes move-animation {
       0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+      100% { transform: translateY(-100%); }
     }
   </style>
 </head>
@@ -139,6 +141,15 @@
     function animateSentences(element) {
       const sentences = element.innerHTML.split('. ').map(sentence => `<div class="move">${sentence}.</div>`);
       element.innerHTML = sentences.join(' ');
+      
+      // Applica l'animazione di spostamento
+      const movingDivs = element.querySelectorAll('.move');
+      movingDivs.forEach(div => div.classList.add('moving'));
+      
+      // Rimuove l'animazione dopo 3 secondi
+      setTimeout(() => {
+        movingDivs.forEach(div => div.classList.remove('moving'));
+      }, 3000); // Durata dell'animazione di spostamento
     }
   </script>
 </body>
