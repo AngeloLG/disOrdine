@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulatore MS-DOS con Risposte Strane</title>
+  <title>disOrdine</title>
   <style>
     body {
       background-color: black;
@@ -17,6 +17,7 @@
       height: 100vh;
       border: 2px solid green;
       padding: 20px;
+      overflow: hidden;
     }
     input {
       width: 100%;
@@ -37,6 +38,22 @@
     }
     p {
       margin: 10px 0;
+    }
+    /* Effetto Matrix */
+    .matrix {
+      font-family: monospace;
+      font-size: 18px;
+      white-space: pre-wrap;
+      color: lime;
+      animation: matrix-animation 1s linear infinite;
+      display: inline-block;
+      position: relative;
+    }
+
+    @keyframes matrix-animation {
+      0% { opacity: 0; transform: translateY(-100%); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(100%); }
     }
   </style>
 </head>
@@ -86,12 +103,13 @@
         let risposta = '';
         for (let i = 0; i < parole.length; i++) {
           let fraseCasuale = frasiSenzaSenso[Math.floor(Math.random() * frasiSenzaSenso.length)];
-          risposta += fraseCasuale + parole[i] + '. ';
+          // Aggiunge l'effetto matrix alla parola generata
+          risposta += `<span class="matrix">${fraseCasuale + parole[i]}</span>. `;
         }
 
-        risposta += "Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.";
+        risposta += "<span class='matrix'>Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.</span>";
 
-        // Visualizza la risposta
+        // Visualizza la risposta con l'effetto Matrix
         responseDiv.innerHTML = `<p>${risposta}</p>`;
       }
 
