@@ -46,16 +46,18 @@
       overflow: hidden;
       display: inline-block;
     }
-    /* Animazione di spostamento */
-    .move {
+    /* Layout delle parole */
+    .word {
       display: inline-block;
+      margin-right: 5px;
     }
-    .moving {
-      animation: move-animation 3s forwards;
+    /* Animazione di spostamento delle parole */
+    .shuffle {
+      animation: shuffle-animation 3s forwards;
     }
-    @keyframes move-animation {
+    @keyframes shuffle-animation {
       0% { transform: translateY(0); }
-      100% { transform: translateY(-100%); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
@@ -137,19 +139,37 @@
       }, 50); // Velocità della scrittura (50ms tra ogni lettera)
     }
 
-    // Funzione per animare il movimento delle frasi
+    // Funzione per animare lo spostamento delle parole
     function animateSentences(element) {
-      const sentences = element.innerHTML.split('. ').map(sentence => `<div class="move">${sentence}.</div>`);
-      element.innerHTML = sentences.join(' ');
-      
-      // Applica l'animazione di spostamento
-      const movingDivs = element.querySelectorAll('.move');
-      movingDivs.forEach(div => div.classList.add('moving'));
-      
-      // Rimuove l'animazione dopo 3 secondi
+      const sentences = element.innerHTML.split('. ').map(sentence => {
+        const words = sentence.split(' ').map(word => `<span class="word">${word}</span>`);
+        return `<div>${words.join(' ')}</div>`;
+      });
+
+      element.innerHTML = sentences.join('. ');
+
+      // Mescola le parole casualmente
+      const wordElements = element.querySelectorAll('.word');
+      const wordsArray = Array.from(wordElements);
+      setInterval(() => {
+        shuffleArray(wordsArray);
+        wordsArray.forEach((wordElem, index) => {
+          wordElem.style.order = index;
+        });
+      }, 1000); // Cambia le parole di posto ogni secondo
+
       setTimeout(() => {
-        movingDivs.forEach(div => div.classList.remove('moving'));
+        // Ferma l'animazione dopo 3 secondi
+        clearInterval();
       }, 3000); // Durata dell'animazione di spostamento
+    }
+
+    // Funzione per mescolare un array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
     }
   </script>
 </body>
