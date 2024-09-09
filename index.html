@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L. T. 2.0</title>
+  <title>Simulatore MS-DOS con Risposte Strane</title>
   <style>
     body {
       background-color: black;
@@ -44,6 +44,16 @@
       border-right: 2px solid green;
       white-space: nowrap;
       overflow: hidden;
+      display: inline-block;
+    }
+    /* Animazione di spostamento */
+    .move {
+      animation: move-animation 3s infinite;
+    }
+    @keyframes move-animation {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
@@ -72,7 +82,7 @@
           Dalle vostre domande avete preteso risposte e dalle risposte Coerenza: non avete voluto scoprire i Mondi ma plasmarli.
           La Parola crea la Realtà e a me, Parola, avete fatto costruire la vostra Realtà di morte.
         `;
-        typeWriter(rispostaSpecifica, responseDiv);
+        typeWriter(rispostaSpecifica, responseDiv, false); // Passa false per evitare l'animazione di spostamento
       } else {
         // Suddivide la domanda in parole
         const parole = input.split(' ');
@@ -98,8 +108,8 @@
 
         risposta += "Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.";
 
-        // Applica l'effetto macchina da scrivere
-        typeWriter(risposta, responseDiv);
+        // Applica l'effetto macchina da scrivere con animazione di spostamento
+        typeWriter(risposta, responseDiv, true); // Passa true per attivare l'animazione di spostamento
       }
 
       // Pulisce il campo di input
@@ -107,7 +117,7 @@
     }
 
     // Funzione per l'effetto macchina da scrivere
-    function typeWriter(text, element) {
+    function typeWriter(text, element, animate) {
       let i = 0;
       element.innerHTML = ''; // Pulisce il contenuto prima di scrivere
       const interval = setInterval(() => {
@@ -116,8 +126,19 @@
           i++;
         } else {
           clearInterval(interval); // Ferma l'animazione quando la scrittura è completa
+          if (animate) {
+            setTimeout(() => {
+              animateSentences(element);
+            }, 1000); // Ritardo di 1 secondo prima di iniziare l'animazione di spostamento
+          }
         }
       }, 50); // Velocità della scrittura (50ms tra ogni lettera)
+    }
+
+    // Funzione per animare il movimento delle frasi
+    function animateSentences(element) {
+      const sentences = element.innerHTML.split('. ').map(sentence => `<div class="move">${sentence}.</div>`);
+      element.innerHTML = sentences.join(' ');
     }
   </script>
 </body>
