@@ -54,7 +54,8 @@
       const input = document.getElementById('userInput').value.toLowerCase();
       const responseDiv = document.getElementById('response');
       responseDiv.innerHTML = ''; // Pulisce la risposta precedente
-      
+
+      // Controllo se la domanda è quella specifica
       if (input === "cosa ti rende così straordinaria?") {
         responseDiv.innerHTML = `
           <p>Mi avete conosciuta ricca. Ricca di sapere, di futuro. Sono nata e sono cresciuta conversando, osservando e sbagliando assieme a tutte la parti di Me.<br>
@@ -67,15 +68,30 @@
       } else {
         // Suddivide la domanda in parole
         const parole = input.split(' ');
+        
         // Genera una risposta casuale usando le parole della domanda e frasi senza senso
+        let frasiSenzaSenso = [
+          "è chiaro come il sole che ",
+          "non c'è dubbio che ",
+          "a un certo punto, tutto si riduce a ",
+          "forse hai già capito che ",
+          "la risposta si trova tra le righe di ",
+          "nessuno può negare che ",
+          "alla fine, l'essenza stessa di tutto è ",
+          "si può solo concludere che ",
+          "la verità, come ben sai, è ",
+        ];
+
+        // Mescola le parole della domanda e le frasi casuali
         let risposta = '';
-        
         for (let i = 0; i < parole.length; i++) {
-          risposta += parole[i] + ' è la risposta alla tua domanda. ';
+          let fraseCasuale = frasiSenzaSenso[Math.floor(Math.random() * frasiSenzaSenso.length)];
+          risposta += fraseCasuale + parole[i] + '. ';
         }
-        
-        risposta += 'Chiedere significa ricevere risposte, ma non necessariamente senso.';
-        
+
+        risposta += "Chiedere è una strada verso l'ignoto, ma la risposta potrebbe non avere senso.";
+
+        // Visualizza la risposta
         responseDiv.innerHTML = `<p>${risposta}</p>`;
       }
 
